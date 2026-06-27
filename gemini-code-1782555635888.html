@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Kiểm Tra Tương Tác - Ms Lê Hằng English</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Quicksand:wght=500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #8854C0;
+            --secondary-color: #FDCB6E;
+            --accent-color: #00C9A7;
+            --correct-color: #00D26A;
+            --wrong-color: #FF4757;
+            --text-dark: #2D3436;
+            --card-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Quicksand', 'Nunito', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(-45deg, #8854C0, #FDCB6E, #00C9A7, #FF7675);
+            background-size: 400% 400%;
+            animation: gradientMove 12s ease infinite;
+            position: relative;
+            padding: 20px 10px;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0;
+            opacity: 0.18;
+            pointer-events: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60' viewBox='0 0 60 60'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M12 12l2 2-2 2-2-2zm20 8c2 0 3-1 3-3s-1-3-3-3-3 1-3 3 1 3 3 3zm15 5l2 3 3 2-3 2-2 3-2-3-3-2 3-2zm-6 20c1.5 0 2.5-1 2.5-2.5S32.5 30 31 30s-2.5 1-2.5 2.5 1 2.5 2.5 2.5zM10 45l2 2-2 2-2-2z'/%3E%3Ccircle cx='50' cy='10' r='2'/%3E%3Ccircle cx='10' cy='50' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            animation: floatingPattern 25s linear infinite;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingPattern {
+            from { background-position: 0 0; }
+            to { background-position: 600px 600px; }
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+        }
+
+        header h2 {
+            font-size: 1.1rem;
+            color: var(--primary-color);
+            font-weight: 700;
+        }
+
+        .alert-box {
+            background: #FFEAA7;
+            border: 3px solid #FDCB6E;
+            border-radius: 20px;
+            padding: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 6px 0 #E17055;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .alert-title {
+            color: #D63031;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+            font-weight: 900;
+        }
+
+        .section-title {
+            background: #FF7675;
+            color: white;
+            padding: 8px 18px;
+            border-radius: 15px;
+            margin: 25px 0 12px 0;
+            display: inline-block;
+            font-weight: 900;
+            box-shadow: 0 4px 0 #D63031;
+            font-size: 1.1rem;
+        }
+
+        .quiz-card {
+            background: var(--card-bg);
+            border-radius: 22px;
+            padding: 22px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 0 rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.2s ease;
+        }
+
+        .question-text {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .option-btn {
+            background: white;
+            border: 2px solid #E2E8F0;
+            border-radius: 15px;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: 700;
+            text-align: left;
+            cursor: pointer;
+            outline: none;
+            box-shadow: 0 4px 0 #E2E8F0;
+            transition: transform 0.1s ease, background-color 0.2s ease;
+        }
+
+        .option-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 #CBD5E1;
+            background-color: #F8FAFC;
+        }
+
+        .option-btn:active {
+            transform: translateY(2px);
+            box-shadow: 0 2px 0 #CBD5E1;
+        }
+
+        .option-btn.correct {
+            background-color: var(--correct-color) !important;
+            color: white !important;
+            border-color: #00B359 !important;
+            box-shadow: 0 4px 0 #00803F !important;
+        }
+
+        .option-btn.wrong {
+            background-color: var(--wrong-color) !important;
+            color: white !important;
+            border-color: #E11D48 !important;
+            box-shadow: 0 4px 0 #9F1239 !important;
+        }
+
+        .option-btn.disabled {
+            pointer-events: none;
+        }
+
+        .explanation-box {
+            margin-top: 15px;
+            background: #F8FAFC;
+            border-left: 6px solid var(--primary-color);
+            border-radius: 0 15px 15px 0;
+            padding: 15px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .explanation-box.active {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .exp-section {
+            margin-bottom: 8px;
+        }
+
+        .exp-title {
+            font-weight: 700;
+            color: #1E293B;
+            border-bottom: 1px dashed #CBD5E1;
+            padding-bottom: 2px;
+            margin-bottom: 4px;
+        }
+
+        .exp-highlight {
+            color: #2563EB;
+            font-weight: 700;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .submit-container {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .btn-submit {
+            background: #FF7675;
+            color: white;
+            border: none;
+            padding: 14px 45px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #D63031;
+            transition: all 0.1s ease;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 0 #D63031;
+        }
+
+        .btn-submit:active {
+            transform: translateY(3px);
+            box-shadow: 0 3px 0 #D63031;
+        }
+
+        .result-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            display: none;
+        }
+
+        .result-content {
+            background: white;
+            border-radius: 25px;
+            padding: 30px;
+            max-width: 460px;
+            width: 90%;
+            text-align: center;
+            border: 4px solid var(--primary-color);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.3);
+        }
+
+        .result-score {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 12px;
+        }
+
+        .result-comment {
+            font-size: 1.1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .btn-close-result {
+            background: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            font-size: 1rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            box-shadow: 0 4px 0 #00A387;
+        }
+
+        #confetti-canvas {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="confetti-canvas"></canvas>
+
+    <div class="container">
+        <header>
+            <h2>Giáo viên tạo: Ms Lê Hằng English</h2>
+        </header>
+
+        <div class="alert-box">
+            <span class="alert-title">⚠️ LỜI NHẮC CỰC KỲ QUAN TRỌNG ⚠️</span>
+            Chỉ có đọc kỹ giải thích ngay sau mỗi câu, sau đó ghi lại từ vựng/cấu trúc mới vào vở để học thì mới thực sự giỏi lên.<br>
+            Làm cho xong mà không đọc giải thích hay đọc qua loa không ghi chép thì chỉ tốn thời gian vô ích!<br>
+            <span style="color: #00C9A7; display:block; margin-top:5px;">* Kéo tới đâu, làm tới đó! *</span>
+        </div>
+
+        <div id="quiz-container">
+            <!-- Sinh tự động bộ câu hỏi tương tác từ mã script phía dưới -->
+        </div>
+
+        <div class="submit-container">
+            <button type="button" class="btn-submit" onclick="gradeEntireQuiz()">NỘP BÀI</button>
+        </div>
+    </div>
+
+    <div class="result-overlay" id="result-modal">
+        <div class="result-content">
+            <div class="result-score" id="score-text">0/0</div>
+            <div class="result-comment" id="comment-text"></div>
+            <button class="btn-close-result" onclick="closeResultModal()">Xem lại bài học</button>
+        </div>
+    </div>
+
+    <script>
+        // --- HỆ THỐNG ÂM THANH TỰ ĐỘNG WEB AUDIO API ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playSound(type) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+
+            if (type === 'correct') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.3);
+            } else {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(100, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.25);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.25);
+            }
+        }
+
+        // --- CƠ SỞ DỮ LIỆU ĐỀ BÀI CHUẨN XÁC 100% TOÀN VẸN ---
+        const quizData = [
+            // EXERCISE 17
+            {
+                id: 1,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"Mary/ play/ piano/ while/ her parents/ watch TV.\"",
+                options: [
+                    { text: "A. Mary was playing the piano while her parents were watching TV.", isCorrect: true },
+                    { text: "B. Mary played piano while her parents watched TV.", isCorrect: false },
+                    { text: "C. Mary was playing piano while her parents watched TV.", isCorrect: false },
+                    { text: "D. Mary is playing the piano while her parents are watching TV.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Mary đang chơi đàn dương cầm trong khi bố mẹ cô ấy đang xem ti vi.",
+                    options: "Các phương án phối hợp thì thời giữa hai mệnh đề liên kết bởi giới từ 'while'.",
+                    reason: "Yêu cầu đề bài sử dụng thì Quá khứ tiếp diễn (Past Continuous). Từ 'while' dùng kết nối hai hành động xảy ra đồng thời, kéo dài song song trong quá khứ. Công thức: S1 + was/were + V1-ing + while + S2 + was/were + V2-ing. Mary số ít đi với 'was playing', her parents số nhiều đi với 'were watching'. Có thêm mạo từ 'the' trước nhạc cụ piano là chuẩn xác.",
+                    wrongReason: "B dùng thì quá khứ đơn; C lệch thì ở vế sau; D dùng thì hiện tại tiếp diễn không đúng yêu cầu quá khứ của đề bài."
+                }
+            },
+            {
+                id: 2,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"She/ paint/ a picture/ while/ her brother/ do/ his homework.\"",
+                options: [
+                    { text: "A. She painted a picture while her brother did his homework.", isCorrect: false },
+                    { text: "B. She was painting a picture while her brother was doing his homework.", isCorrect: true },
+                    { text: "C. She was painting a picture while her brother does homework.", isCorrect: false },
+                    { text: "D. She is painting a picture while her brother is doing his homework.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Cô ấy đang vẽ một bức tranh trong khi em trai cô ấy đang làm bài tập về nhà.",
+                    options: "Các phương án sắp đặt thì thời cho hành động song hành với liên từ 'while'.",
+                    reason: "Hai hành động vẽ tranh ('paint') và làm bài tập ('do homework') diễn ra song song cùng lúc trong quá khứ nhờ liên từ 'while'. Cả hai chủ ngữ 'She' và 'her brother' đều là ngôi số ít nên đều đi với trợ động từ 'was' kèm động từ đuôi -ing -> 'was painting... was doing'.",
+                    wrongReason: "A dùng quá khứ đơn; C sai phối thì vế sau; D chia thì hiện tại tiếp diễn sai mốc trục thời gian quá khứ."
+                }
+            },
+            {
+                id: 3,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"Jane/ bake/ a cake/ while/ her father/ decorate the house.\"",
+                options: [
+                    { text: "A. Jane was baking a cake while her father was decorating the house.", isCorrect: true },
+                    { text: "B. Jane baked a cake while her father decorated the house.", isCorrect: false },
+                    { text: "C. Jane is baking a cake while her father decorates the house.", isCorrect: false },
+                    { text: "D. Jane was baking a cake while her father has decorated the house.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Jane đang nướng một chiếc bánh trong khi bố cô ấy đang trang trí nhà cửa.",
+                    options: "Các hình thức chia động từ của mệnh đề hành động đồng thời quá khứ.",
+                    reason: "Áp dụng công thức quá khứ tiếp diễn song hành đi sau cấu trúc 'while'. Jane số ít -> 'was baking'; her father số ít -> 'was decorating'. Các từ kết hợp tự nhiên chính xác y hệt đáp án gợi ý của đề.",
+                    wrongReason: "B dùng quá khứ đơn; C dùng hiện tại đơn; D phối hợp sai quy tắc giữa quá khứ tiếp diễn và hiện tại hoàn thành."
+                }
+            },
+            {
+                id: 4,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"They/ explore/ city streets/ take/ photographs/ all day.\"",
+                options: [
+                    { text: "A. They explore city streets and take photographs all day.", isCorrect: false },
+                    { text: "B. They were exploring the city streets and taking photographs all day.", isCorrect: true },
+                    { text: "C. They had explored city streets to take photographs all day.", isCorrect: false },
+                    { text: "D. They were exploring city streets when taking photographs all day.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Họ đã dành cả ngày để khám phá các con phố trong thành phố và chụp ảnh.",
+                    options: "Sắp xếp liên từ nối 'and' nối hai hành động cùng tính chất tiếp diễn kéo dài.",
+                    reason: "Dấu hiệu trạng ngữ 'all day' (suốt cả ngày) trong ngữ cảnh quá khứ biểu thị hành động diễn ra liên tục, kéo dài chiếm trọn thời gian -> Chia thì Quá khứ tiếp diễn. Hai hành động khám phá đường phố và chụp ảnh song hành cùng một chủ từ 'They' nên được kết nối bằng liên từ 'and' và đều để dạng V-ing -> 'were exploring... and taking...'.",
+                    wrongReason: "A dùng hiện tại đơn; C dùng quá khứ hoàn thành; D sử dụng liên từ 'when' phá hỏng mối quan hệ đẳng lập bổ trợ giữa hai hành động."
+                }
+            },
+            {
+                id: 5,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"My sister/ play/ badminton/ while/ my brother/ fly/ kite.\"",
+                options: [
+                    { text: "A. My sister was playing badminton while my brother was flying a kite.", isCorrect: true },
+                    { text: "B. My sister played badminton while my brother flew a kite.", isCorrect: false },
+                    { text: "C. My sister is playing badminton while my brother flies a kite.", isCorrect: false },
+                    { text: "D. My sister was playing badminton while my brother has flown a kite.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Chị gái tơ đang đánh cầu lông trong khi em trai tớ đang thả diều.",
+                    options: "Xem xét sự phối hợp mạo từ và thì tiếp diễn của các mệnh đề song song.",
+                    reason: "Tương tự các cấu trúc chứa 'while' chỉ hành động diễn ra liên tục song hành trong quá khứ. Ta chia quá khứ tiếp diễn cho cả hai vế. Bổ sung mạo từ 'a' trước danh từ đếm được số ít 'kite' tạo thành cụm từ tự nhiên đúng ngữ pháp 'flying a kite'.",
+                    wrongReason: "B chia quá khứ đơn; C chia sai hệ thời gian hiện tại; D kết hợp sai với hiện tại hoàn thành."
+                }
+            },
+            {
+                id: 6,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"Ngoc/ have/ meeting/ 9 a.m./ last Wednesday.\"",
+                options: [
+                    { text: "A. Ngoc had a meeting at 9 a.m. last Wednesday.", isCorrect: false },
+                    { text: "B. Ngoc was having a meeting at 9 a.m. last Wednesday.", isCorrect: true },
+                    { text: "C. Ngoc is having a meeting at 9 a.m. last Wednesday.", isCorrect: false },
+                    { text: "D. Ngoc was having meeting on 9 a.m. last Wednesday.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Ngọc đang họp vào lúc 9 giờ sáng thứ Tư tuần trước.",
+                    options: "Xem xét việc sử dụng giới từ chỉ giờ giấc cụ thể và mạo từ.",
+                    reason: "Mốc thời gian có giờ giấc chính xác đi kèm ngày quá khứ rõ rệt: 'at 9 a.m. last Wednesday' là dấu hiệu điển hình bắt buộc của thì Quá khứ tiếp diễn (diễn tả hành động đang xảy ra tại một thời điểm cụ thể trong quá khứ). Ngọc số ít đi với 'was having a meeting'. Giới từ đi với giờ bắt buộc là 'at'.",
+                    wrongReason: "A dùng quá khứ đơn chưa lột tả được tính tiếp diễn tại mốc giờ; C dùng hiện tại tiếp diễn; D dùng sai giới từ 'on' trước giờ giấc."
+                }
+            },
+            {
+                id: 7,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"Quang/ read/ science book/ all morning.\"",
+                options: [
+                    { text: "A. Quang reads a science book all morning.", isCorrect: false },
+                    { text: "B. Quang was reading a science book all morning.", isCorrect: true },
+                    { text: "C. Quang had read science book all morning.", isCorrect: false },
+                    { text: "D. Quang was reading science book at all morning.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Quang đã đọc sách khoa học suốt cả buổi sáng.",
+                    options: "Phân tích mạo từ và trạng ngữ chỉ thời gian kéo dài liên tục.",
+                    reason: "Trạng ngữ 'all morning' (suốt cả buổi sáng) nhấn mạnh quá trình diễn ra liên tục không ngắt quãng của hành động đọc trong quá khứ -> chia Quá khứ tiếp diễn 'was reading'. Cần thêm mạo từ 'a' trước cụm danh từ đếm được số ít 'science book'. Do đó câu B chuẩn xác.",
+                    wrongReason: "A chia hiện tại; C dùng quá khứ hoàn thành; D tự ý thêm giới từ 'at' trước cụm từ 'all morning' là sai ngữ pháp."
+                }
+            },
+            {
+                id: 8,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"he/ chat/ friends/ online/ 10 p.m./ yesterday?\"",
+                options: [
+                    { text: "A. Did he chat with friends online at 10 p.m. yesterday?", isCorrect: false },
+                    { text: "B. Was he chatting with his friends online at 10 p.m. yesterday?", isCorrect: true },
+                    { text: "C. Is he chatting with friends online at 10 p.m. yesterday?", isCorrect: false },
+                    { text: "D. Were he chatting with his friends online at 10 p.m. yesterday?", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Có phải anh ấy đang tán gẫu với bạn bè trực tuyến vào lúc 10 giờ tối ngày hôm qua không?",
+                    options: "Xác định cấu trúc câu hỏi nghi vấn của thì quá khứ tiếp diễn.",
+                    reason: "Dấu hiệu 'at 10 p.m. yesterday' (vào lúc 10h tối qua) có giờ cụ thể trong quá khứ -> Thì quá khứ tiếp diễn dạng câu hỏi nghi vấn: Was/Were + S + V-ing? Chủ ngữ 'he' đi với trợ động từ 'Was' -> 'Was he chatting...'. Động từ chat đi với giới từ 'with' tạo nên cụm từ giao tiếp tự nhiên.",
+                    wrongReason: "A dùng trợ động từ Did của quá khứ đơn; C dùng Is của hiện tại; D dùng Were sai hòa hợp với chủ ngữ số ít 'he'."
+                }
+            },
+            {
+                id: 9,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"I/ save/ money/ for months/ buy/ new/ car.\"",
+                options: [
+                    { text: "A. I was saving money for months to buy a new car.", isCorrect: true },
+                    { text: "B. I saved money for months to buy new car.", isCorrect: false },
+                    { text: "C. I am saving money for months for buying a new car.", isCorrect: false },
+                    { text: "D. I was saving money for months buy a new car.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Tớ đã tích lũy tiền ròng rã suốt nhiều tháng trời để mua một chiếc ô tô mới.",
+                    options: "Phân tích cấu trúc chỉ mục đích và tính chất kéo dài của hành động.",
+                    reason: "Trạng ngữ 'for months' (trong nhiều tháng) nhấn mạnh tiến trình tích lũy diễn ra liên tục dai dẳng trong quá khứ -> chia Quá khứ tiếp diễn 'was saving'. Cấu trúc chỉ mục đích: 'to + V nguyên mẫu' (to buy: để mua). Thêm mạo từ 'a' trước cụm danh từ đếm được số ít 'new car'. Đáp án A kết hợp hoàn hảo.",
+                    wrongReason: "B dùng quá khứ đơn và thiếu mạo từ 'a'; C dùng hiện tại tiếp diễn; D viết thiếu chữ 'to' chỉ mục đích trước động từ buy."
+                }
+            },
+            {
+                id: 10,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"John/ sing/ while/ his friends/ dance/ at/ party.\"",
+                options: [
+                    { text: "A. John was singing while his friends were dancing at the party.", isCorrect: true },
+                    { text: "B. John sang while his friends danced at party.", isCorrect: false },
+                    { text: "C. John is singing while his friends are dancing at the party.", isCorrect: false },
+                    { text: "D. John was singing while his friends danced at the party.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "John đang hát trong khi bạn bè của cậu ấy đang nhảy múa tại bữa tiệc.",
+                    options: "Phân tích sự hòa hợp chủ từ số ít/số nhiều của cấu trúc song hành chứa 'while'.",
+                    reason: "Cấu trúc hành động xảy ra song song kéo dài với 'while' trong quá khứ. Chủ ngữ thứ nhất 'John' (số ít) đi với 'was singing'. Chủ ngữ thứ hai 'his friends' (số nhiều) đi với 'were dancing'. Cụm danh từ nơi chốn cụ thể thêm mạo từ 'at the party'. Phương án A hoàn chỉnh.",
+                    wrongReason: "B dùng quá khứ đơn; C dùng hiện tại tiếp diễn; D chia sai thì quá khứ đơn cho vế bạn bè nhảy múa."
+                }
+            },
+            {
+                id: 11,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"They/ study/ Spanish/ all year/ prepare/ their trip.\"",
+                options: [
+                    { text: "A. They were studying Spanish all year to prepare for their trip.", isCorrect: true },
+                    { text: "B. They studied Spanish all year to prepare their trip.", isCorrect: false },
+                    { text: "C. They are studying Spanish all year for preparing their trip.", isCorrect: false },
+                    { text: "D. They were studying Spanish all year prepare for their trip.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Họ đã học tiếng Tây Ban Nha suốt cả năm để chuẩn bị cho chuyến đi của mình.",
+                    options: "Xem xét giới từ cố định đi kèm động từ 'prepare' và từ chỉ mục đích.",
+                    reason: "Trạng ngữ 'all year' (suốt cả năm) biểu thị một hành động kéo dài liên tục chiếm hết quỹ thời gian quá khứ -> chia Quá khứ tiếp diễn 'were studying'. Động từ prepare đi với cụm chỉ mục đích: 'to prepare for something' (để chuẩn bị cho cái gì). Phương án A đầy đủ thành tố cấu trúc.",
+                    wrongReason: "B dùng quá khứ đơn và thiếu giới từ 'for'; C dùng thì hiện tại; D thiếu từ 'to' kết nối mục đích động từ nguyên mẫu."
+                }
+            },
+            {
+                id: 12,
+                section: "Exercise 17: Write complete sentences using past continuous.",
+                question: "Sắp xếp / viết câu hoàn chỉnh từ gợi ý: \"My brother/ practise/ guitar/ all month/ improve/ his skills.\"",
+                options: [
+                    { text: "A. My brother practised the guitar all month to improve his skills.", isCorrect: false },
+                    { text: "B. My brother was practicing the guitar all month to improve his skills.", isCorrect: true },
+                    { text: "C. My brother is practicing guitar all month for improving his skills.", isCorrect: false },
+                    { text: "D. My brother was practicing guitar all month improve his skills.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Anh trai tớ đã luyện tập đàn ghi ta suốt cả tháng để cải thiện các kỹ năng của mình.",
+                    options: "Phân tích cách phối hợp mạo từ trước nhạc cụ và động từ chỉ mục đích.",
+                    reason: "Dấu hiệu 'all month' (suốt cả tháng) chỉ tiến trình liên tục kéo dài -> chia Quá khứ tiếp diễn 'was practicing'. Trước các loại nhạc cụ khi nói về hành động chơi/luyện tập bắt buộc phải có mạo từ 'the' -> 'the guitar'. Để chỉ mục đích dùng 'to + V' -> 'to improve'. Kết hợp lại ta có câu B chuẩn xác.",
+                    wrongReason: "A dùng quá khứ đơn; C sai hệ thời gian; D thiếu mạo từ 'the' đứng trước nhạc cụ guitar và thiếu chữ 'to' chỉ mục đích."
+                }
+            },
+
+            // EXERCISE 18
+            {
+                id: 13,
+                section: "Exercise 18: Complete the second sentence so that it has a similar meaning to the first.",
+                question: "Viết lại câu đồng nghĩa: \"I'm sorry that I don't know what to do about the problem.\" 🡪 I wish...",
+                options: [
+                    { text: "A. I wish I know what to do about the problem.", isCorrect: false },
+                    { text: "B. I wish I knew what to do about the problem.", isCorrect: true },
+                    { text: "C. I wish I would know what to do about the problem.", isCorrect: false },
+                    { text: "D. I wish I didn't know what to do about the problem.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Tớ rất tiếc là tớ không biết phải làm gì với vấn đề này.<br>Viết lại: Ước gì tớ biết phải làm gì để giải quyết vấn đề này.",
+                    options: "Các hình thức biến đổi động từ đứng sau cấu trúc câu ước hiện tại 'I wish'.",
+                    reason: "Sự thật ở hiện tại là không biết ('don't know'). Câu ước thể hiện một mong muốn trái ngược hoàn toàn với thực tế hiện tại bắt buộc phải lùi một thì về dạng Quá khứ giả định (S + wish + S + V2/ed). Động từ 'know' chuyển thành 'knew'. Do đó câu B đúng.",
+                    wrongReason: "A chưa lùi thì; C dùng sai dạng 'would' cho ước muốn năng lực bản thân hiện tại; D viết ngược nghĩa tạo nên câu ước phi lý."
+                }
+            },
+            {
+                id: 14,
+                section: "Exercise 18: Complete the second sentence so that it has a similar meaning to the first.",
+                question: "Viết lại câu đồng nghĩa: \"When I was a child, we lived in Bristol.\" 🡪 We used to...",
+                options: [
+                    { text: "A. We used to living in Bristol.", isCorrect: false },
+                    { text: "B. We used to live in Bristol.", isCorrect: true },
+                    { text: "C. We are used to live in Bristol.", isCorrect: false },
+                    { text: "D. We used to lived in Bristol.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Khi tớ còn là một đứa trẻ, chúng tớ đã sống ở Bristol.<br>Viết lại: Chúng tớ từng sống ở thành phố Bristol.",
+                    options: "Phân biệt cấu trúc 'used to + V' và cấu trúc 'be used to + V-ing'.",
+                    reason: "Để diễn tả một thói quen hoặc một trạng thái, sự việc từng xảy ra thường xuyên trong quá khứ và bây giờ không còn nữa, tiếng Anh sử dụng cấu trúc cố định: 'S + used to + V (nguyên mẫu)'. Do đó 'lived' lùi về nguyên thể là 'live' đứng sau used to. Chọn B.",
+                    wrongReason: "A dùng V-ing sai cấu trúc; C dùng 'are used to' chỉ sự quen thuộc ở hiện tại; D dùng động từ quá khứ 'lived' sau 'to' là sai nguyên tắc."
+                }
+            },
+            {
+                id: 15,
+                section: "Exercise 18: Complete the second sentence so that it has a similar meaning to the first.",
+                question: "Viết lại câu đồng nghĩa: \"It was breakfast time when Susan rang.\" 🡪 I was having...",
+                options: [
+                    { text: "A. I was having breakfast when Susan rang.", isCorrect: true },
+                    { text: "B. I was having breakfast when Susan was ringing.", isCorrect: false },
+                    { text: "C. I had breakfast when Susan rang.", isCorrect: false },
+                    { text: "D. I am having breakfast when Susan rang.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Lúc đó là thời gian ăn sáng khi Susan gọi điện đến.<br>Viết lại: Tớ đang ăn sáng thì Susan gọi điện.",
+                    options: "Phối hợp thì hành động đang diễn ra nền và hành động xen ngang bất chợt.",
+                    reason: "Bản chất câu gốc chỉ ra việc Susan gọi điện ('Susan rang' - quá khứ đơn) rơi trúng vào thời điểm ăn sáng. Có nghĩa là hành động ăn sáng đang diễn ra liên tục kéo dài làm nền -> Chia thì Quá khứ tiếp diễn 'I was having breakfast'. Hành động gọi điện ngắn hơn cắt ngang giữ nguyên quá khứ đơn. Chọn A.",
+                    wrongReason: "B chia tiếp diễn cho cả hành động chuông reo tức thời; C dùng quá khứ đơn làm mất tính chất tiếp diễn; D dùng sai hệ thời gian hiện tại."
+                }
+            },
+            {
+                id: 16,
+                section: "Exercise 18: Complete the second sentence so that it has a similar meaning to the first.",
+                question: "Viết lại câu đồng nghĩa: \"My mother spent three hours making a dress.\" 🡪 It took...",
+                options: [
+                    { text: "A. It took my mother three hours making a dress.", isCorrect: false },
+                    { text: "B. It took my mother three hours to make a dress.", isCorrect: true },
+                    { text: "C. It takes my mother three hours to make a dress.", isCorrect: false },
+                    { text: "D. It took three hours for my mother making a dress.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Mẹ tớ đã dành ra ba tiếng đồng hồ để may một chiếc váy.<br>Viết lại: Mẹ tớ mất ba tiếng đồng hồ để may một chiếc váy.",
+                    options: "Chuyển đổi qua lại giữa cấu trúc 'Spend' và cấu trúc chủ ngữ giả 'Take'.",
+                    reason: "Cấu trúc spend: S + spend + time + V-ing. Khi biến đổi sang cấu trúc đi với It take trong quá khứ (do câu gốc dùng spent quá khứ), công thức chuẩn là: 'It + took + somebody + time + to-V (nguyên mẫu)'. Do đó động từ 'making' phải chuyển đổi thành 'to make'. Đáp án B hoàn toàn chính xác.",
+                    wrongReason: "A dùng sai dạng V-ing; C chia thì hiện tại đơn 'takes' sai thì gốc quá khứ của câu; D sai cấu trúc kết hợp đuôi từ."
+                }
+            },
+            {
+                id: 17,
+                section: "Exercise 18: Complete the second sentence so that it has a similar meaning to the first.",
+                question: "Viết lại câu đồng nghĩa: \"During my dinner, the phone rang.\" 🡪 While I was...",
+                options: [
+                    { text: "A. While I was dinner, the phone rang.", isCorrect: false },
+                    { text: "B. While I was having dinner, the phone rang.", isCorrect: true },
+                    { text: "C. While I had dinner, the phone was ringing.", isCorrect: false },
+                    { text: "D. While I am having dinner, the phone rang.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Trong suốt bữa ăn tối của tớ, chuông điện thoại reo lên.<br>Viết lại: Trong khi tớ đang ăn tối thì chuông điện thoại reo.",
+                    options: "Biến đổi cụm giới từ chỉ thời gian thành mệnh đề trạng ngữ chứa liên từ 'While'.",
+                    reason: "Giới từ 'During' đi kèm danh từ (During my dinner). Khi chuyển sang liên từ 'While', phía sau bắt buộc phải là một mệnh đề hoàn chỉnh (S + V). Diễn tả hành động ăn tối đang diễn ra liên tục làm nền trong quá khứ nên mệnh đề sau while chia quá khứ tiếp diễn -> 'While I was having dinner'. Mệnh đề kết quả giữ nguyên quá khứ đơn 'the phone rang'. Chọn B.",
+                    wrongReason: "A thiếu động từ chính; C phối hợp sai thì thời hành động ngắn/dài; D chia thì hiện tại tiếp diễn sai trục thời gian quá khứ."
+                }
+            },
+
+            // EXERCISE 19
+            {
+                id: 18,
+                section: "Exercise 19: Circle the correct answer A, B, C, or D which is closest in meaning to the original one.",
+                question: "People didn’t have access to the internet in the 1980s.",
+                options: [
+                    { text: "A. The internet was invented in the 1980s.", isCorrect: false },
+                    { text: "B. People still don’t have internet access today.", isCorrect: false },
+                    { text: "C. The internet was very popular in the 1980s.", isCorrect: false },
+                    { text: "D. People could not access the internet easily in the past. (Xét theo nghĩa tương thích: Cận nghĩa nhất với không có quyền truy cập)", isCorrect: true }
+                ],
+                explanation: {
+                    translation: "Gốc: Con người không có quyền truy cập vào mạng internet vào những năm 1980.<br>Nghĩa đáp án chọn: Con người không thể truy cập internet một cách dễ dàng trong quá khứ.",
+                    options: "A. Internet được phát minh vào những năm 1980; B. Ngày nay con người vẫn không có internet; C. Internet rất phổ biến vào những năm 1980; D. Trong quá khứ con người không thể truy cập internet dễ dàng.",
+                    reason: "Mệnh đề gốc khẳng định 'People didn't have access to the internet in the 1980s' chỉ ra một thực tế là mạng internet chưa phổ cập, con người chưa thể kết nối sử dụng nó. Phương án D phản ánh sát nghĩa logic nhất về việc không thể tiếp cận sử dụng internet trong quá khứ.",
+                    wrongReason: "A tự ý đưa thông tin năm phát minh; B sai thực tế ngày nay; C nói ngược hoàn toàn nghĩa gốc (không có quyền truy cập thì không thể phổ biến)."
+                }
+            },
+            {
+                id: 19,
+                section: "Exercise 19: Circle the correct answer A, B, C, or D which is closest in meaning to the original one.",
+                question: "Traveling by train in the past was much slower than it is today.",
+                options: [
+                    { text: "A. Traveling by train was always slow.", isCorrect: false },
+                    { text: "B. Today, trains travel much slower than in the past.", isCorrect: false },
+                    { text: "C. Trains used to travel very slow in the past. (Cận nghĩa cấu trúc thói quen trạng thái cũ)", isCorrect: true },
+                    { text: "D. Traveling by train is still a slow way to travel.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Gốc: Việc đi du lịch bằng tàu hỏa trong quá khứ chậm hơn rất nhiều so với ngày nay.<br>Nghĩa đáp án chọn: Tàu hỏa từng di chuyển rất chậm trong quá khứ.",
+                    options: "A. Đi tàu hỏa luôn luôn chậm; B. Ngày nay tàu hỏa chạy chậm hơn ngày xưa; C. Tàu hỏa từng chạy rất chậm trong quá khứ; D. Đi tàu hỏa vẫn là một cách di chuyển chậm chạp.",
+                    reason: "Câu gốc so sánh tính chất vận tốc tàu hỏa ngày xưa ('in the past') rất chậm so với bây giờ ('slower than today'). Phương án C sử dụng cấu trúc trạng thái cũ 'used to travel very slow' phản ánh chính xác tính chất chậm chạp của hệ thống tàu hỏa ngày xưa.",
+                    wrongReason: "A mang tính chất tuyệt đối hóa 'always'; B nói ngược cấu trúc so sánh; D khẳng định hiện tại vẫn chậm là không tương thích nghĩa tập trung so sánh quá khứ của đề bài."
+                }
+            },
+
+            // EXERCISE 20
+            {
+                id: 20,
+                section: "Exercise 20: Mark the letter A, B, C or D to indicate the correct arrangement of the sentences to make a meaningful paragraph/letter.",
+                question: "Sắp xếp các câu sau thành một đoạn văn hoàn chỉnh kể về chuyến đi:<br>a. Firstly, we explored beautiful beaches...<br>b. This trip created lasting memories...<br>c. Secondly, we enjoyed delicious local food...<br>d. Finally, we met friendly locals...<br>e. Our trip last summer was truly amazing.",
+                options: [
+                    { text: "A. e – d – a – b – c", isCorrect: false },
+                    { text: "B. d – b – a – c – e", isCorrect: false },
+                    { text: "C. e – a – c – d – b", isCorrect: true },
+                    { text: "D. b – c – e – a – d", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Đoạn văn hoàn chỉnh: 'Chuyến đi của chúng tôi vào mùa hè năm ngoái thực sự tuyệt vời. Đầu tiên, chúng tôi khám phá những bãi biển tuyệt đẹp với làn nước trong vắt và cát mịn. Thứ hai, chúng tôi thưởng thức những món ăn địa phương thơm ngon, thử những hương vị và món ăn mới. Cuối cùng, chúng tôi gặp những người dân địa phương thân thiện, những người đã khiến chúng tôi cảm thấy được chào đón và giúp chúng tôi tìm hiểu về văn hóa của họ. Chuyến đi này đã tạo nên những kỷ niệm lâu dài và thắt chặt tình cảm gia đình. Đó là một trải nghiệm khó quên mà chúng tôi sẽ trân trọng mãi mãi.'",
+                    options: "Các phương án trật tự sắp xếp logic đoạn văn dựa vào từ nối thứ tự (Transition words).",
+                    reason: "Câu mẫu lý tưởng để mở đầu đoạn văn là câu chủ đề mang tính khái quát cảm xúc tổng thể: câu (e - Our trip last summer was truly amazing). Tiếp theo, để liệt kê các hoạt động, ta bám sát các từ nối chỉ trình tự thời gian tăng dần: 'Firstly' (a) -> 'Secondly' (c) -> 'Finally' (d). Cuối cùng, câu (b) đóng vai trò là câu kết đoạn (Concluding sentence) nêu lên ý nghĩa, giá trị đọng lại của chuyến đi. Thứ tự hoàn hảo là e – a – c – d – b.",
+                    wrongReason: "Các phương án khác làm đảo lộn hoàn toàn từ nối trình tự (ví dụ đặt Finally lên trước Firstly) hoặc đưa câu kết luận lên đầu đoạn văn gây mất logic."
+                }
+            },
+
+            // EXERCISE 21
+            {
+                id: 21,
+                section: "Exercise 21: Mark the letter A, B, C or D to indicate the correct answer to each of the following questions.",
+                question: "Phở is a globally recognized and beloved traditional Vietnamese dish. I believe it's more than just food; it's a symbol of Vietnamese culinary heritage. _________<br>Sắp xếp trật tự câu (a-c) để điền vào chỗ trống trên thành đoạn văn logic:<br>a. This dish is not only delicious but also tells a story...<br>b. The rich, aromatic flavors come from a long-simmered broth...<br>c. A perfect bowl of phở features a clear, savory broth, tender slices of beef...",
+                options: [
+                    { text: "A. c - b – a", isCorrect: true },
+                    { text: "B. b - c – a", isCorrect: false },
+                    { text: "C. a - c – b", isCorrect: false },
+                    { text: "D. a - b – c", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Phở là món ăn truyền thống của Việt Nam được toàn cầu công nhận và yêu thích. Tớ tin rằng nó không chỉ là thức ăn; nó là biểu tượng của di sản ẩm thực Việt. (c) Một bát phở hoàn hảo có nước dùng trong, đậm đà, những lát thịt bò hoặc gà mềm... (b) Hương vị đậm đà, thơm phức đến từ nước dùng ninh lâu với các gia vị như hoa hồi và quế. (a) Món ăn này không chỉ ngon mà còn kể một câu chuyện về văn hóa...",
+                    options: "Phân tích mạch lập luận đi từ tổng quan diện mạo món ăn đến chi tiết cấu thành bên trong.",
+                    reason: "Sau câu giới thiệu phở là biểu tượng ẩm thực, câu (c) tiếp nối hoàn hảo bằng cách tả thực cận cảnh một bát phở tiêu chuẩn trông như thế nào ('A perfect bowl of phở features... clear, savory broth'). Tiếp theo, từ khóa 'broth' (nước dùng) ở cuối câu (c) được bắt ý và làm rõ quy trình chế biến ở đầu câu (b) ('The rich, aromatic flavors come from a long-simmered broth'). Cuối cùng, câu (a) đúc kết giá trị văn hóa sâu xa khép lại đoạn lập luận. Trật tự logic chuẩn là c - b - a.",
+                    wrongReason: "Các trật tự khác làm đứt gãy sợi dây liên kết từ khóa 'broth', khiến câu văn bị nhảy cóc ý nghĩa đột ngột."
+                }
+            },
+            {
+                id: 22,
+                section: "Exercise 21: Mark the letter A, B, C or D to indicate the correct answer to each of the following questions.",
+                question: "Chọn câu kết luận (CONCLUDING SENTENCE) phù hợp nhất để khép lại đoạn văn giới thiệu về Phở phía trên:",
+                options: [
+                    { text: "A. A perfect bowl of phở features a clear, savory broth.", isCorrect: false },
+                    { text: "B. In conclusion, phở is a culinary masterpiece that truly represents the heart and soul of Vietnamese cuisine.", isCorrect: true },
+                    { text: "C. This dish is not only delicious but also tells a story of Vietnamese culture and tradition.", isCorrect: false },
+                    { text: "D. Phở is a globally recognized and beloved traditional Vietnamese dish.", isCorrect: false }
+                ],
+                explanation: {
+                    translation: "Các phương án lựa chọn câu kết bài cho đoạn văn ngắn.",
+                    options: "A. Một bát phở hoàn hảo có nước dùng trong; B. Tóm lại, phở là một kiệt tác ẩm thực đại diện cho trái tim và linh hồn của ẩm thực Việt; C. Món ăn này kể câu chuyện văn hóa; D. Phở là món ăn truyền thống được công nhận toàn cầu.",
+                    reason: "Một câu kết đoạn (Concluding sentence) lý tưởng thường bắt đầu bằng cụm từ định hướng kết luận rõ ràng như 'In conclusion' (Tóm lại, kết luận là). Nội dung câu phải mang tính nâng tầm, tóm gọn và đúc kết lại toàn bộ giá trị cốt lõi đã trình bày. Phương án B đáp ứng hoàn hảo cả về hình thức lẫn nội dung ý nghĩa văn phong.",
+                    wrongReason: "A và C chỉ là các câu triển khai chi tiết thành phần nhỏ; D là câu nhắc lại y hệt câu mở đầu (Topic sentence) gây lặp từ nhàm chán."
+                }
+            }
+        ];
+
+        // --- KHỞI TẠO VÀ HIỂN THỊ GIAO DIỆN BÀI THI ---
+        const container = document.getElementById('quiz-container');
+        let currentSectionName = "";
+
+        // Thuật toán xáo trộn mảng đáp án ngẫu nhiên nâng cao tính khách quan
+        function shuffleOptions(options) {
+            let shuffled = [...options];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        quizData.forEach((q, index) => {
+            if (q.section !== currentSectionName) {
+                currentSectionName = q.section;
+                const secTitle = document.createElement('div');
+                secTitle.className = 'section-title';
+                secTitle.innerText = currentSectionName;
+                container.appendChild(secTitle);
+            }
+
+            const card = document.createElement('div');
+            card.className = 'quiz-card';
+            card.id = `card-${q.id}`;
+
+            const shuffledOpts = shuffleOptions(q.options);
+            let optionsHtml = '';
+            shuffledOpts.forEach(opt => {
+                optionsHtml += `<button class="option-btn" data-correct="${opt.isCorrect}" onclick="selectOption(this, ${q.id})">${opt.text}</button>`;
+            });
+
+            card.innerHTML = `
+                <div class="question-text"><strong>Câu ${index + 1}:</strong><br>${q.question}</div>
+                <div class="options-container">${optionsHtml}</div>
+                <div class="explanation-box" id="exp-${q.id}">
+                    <div class="exp-section"><div class="exp-title">🌟 Dịch nghĩa câu hỏi / Tình huống ngữ cảnh:</div><div class="exp-text">${q.explanation.translation}</div></div>
+                    <div class="exp-section"><div class="exp-title">💎 Phân tích cấu trúc ngữ pháp đáp án:</div><div class="exp-text">${q.explanation.options}</div></div>
+                    <div class="exp-section"><div class="exp-title">✅ Tại sao chọn đáp án này?</div><div class="exp-text exp-highlight">${q.explanation.reason}</div></div>
+                    <div class="exp-section"><div class="exp-title">❌ Tại sao các đáp án khác không chính xác?</div><div class="exp-text">${q.explanation.wrongReason}</div></div>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+
+        // --- XỬ LÝ SỰ KIỆN KHÁCH HÀNG BẤM ĐÁP ÁN ---
+        function selectOption(btn, qId) {
+            const card = document.getElementById(`card-${qId}`);
+            if (card.getAttribute('data-answered') === 'true') return;
+
+            const buttons = card.querySelectorAll('.option-btn');
+            const isCorrect = btn.getAttribute('data-correct') === 'true';
+
+            buttons.forEach(b => {
+                b.classList.add('disabled');
+                if (b.getAttribute('data-correct') === 'true') {
+                    b.classList.add('correct');
+                }
+            });
+
+            if (isCorrect) {
+                btn.classList.add('correct');
+                playSound('correct');
+                createConfetti();
+            } else {
+                btn.classList.add('wrong');
+                card.classList.add('shake');
+                playSound('wrong');
+                setTimeout(() => card.classList.remove('shake'), 400);
+            }
+
+            document.getElementById(`exp-${qId}`).classList.add('active');
+            card.setAttribute('data-answered', 'true');
+            card.setAttribute('data-score', isCorrect ? '1' : '0');
+        }
+
+        // --- HỆ THỐNG TỔNG HỢP ĐIỂM VÀ NHẬN XÉT ---
+        function gradeEntireQuiz() {
+            let totalQuestions = quizData.length;
+            let correctCount = 0;
+            let unansweredCount = 0;
+
+            quizData.forEach(q => {
+                const card = document.getElementById(`card-${q.id}`);
+                const score = card.getAttribute('data-score');
+                if (score === '1') correctCount++;
+                if (!card.getAttribute('data-answered')) unansweredCount++;
+            });
+
+            const percentage = (correctCount / totalQuestions) * 100;
+            document.getElementById('score-text').innerText = `${correctCount}/${totalQuestions}`;
+
+            let comment = "";
+            if (percentage < 50) {
+                comment = "Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ❤️";
+            } else if (percentage <= 80) {
+                comment = "Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau! ✨";
+            } else {
+                comment = "Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha! 🎉🏆";
+            }
+
+            if (unansweredCount > 0) {
+                comment += `\n(Lưu ý nhỏ: Con còn sót lại ${unansweredCount} câu hỏi chưa đưa ra câu trả lời đó nha!)`;
+            }
+
+            document.getElementById('comment-text').innerText = comment;
+            document.getElementById('result-modal').style.display = 'flex';
+
+            if (percentage >= 60) {
+                createConfetti();
+                setTimeout(createConfetti, 300);
+            }
+        }
+
+        function closeResultModal() {
+            document.getElementById('result-modal').style.display = 'none';
+        }
+
+        function CollegeRandom(min, max) { return Math.random() * (max - min) + min; }
+
+        // --- HIỆU ỨNG PHÁO GIẤY CONFETTI CANVAS ---
+        const canvas = document.getElementById('confetti-canvas');
+        const ctx = canvas.getContext('2d');
+        let confettis = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        function createConfetti() {
+            for (let i = 0; i < 50; i++) {
+                confettis.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height - canvas.height,
+                    r: CollegeRandom(6, 12),
+                    d: Math.random() * canvas.height,
+                    color: `hsl(${Math.random() * 360}, 100%, 60%)`,
+                    tilt: CollegeRandom(-10, 10),
+                    tiltAngleIncremental: CollegeRandom(-0.04, 0.04),
+                    tiltAngle: 0
+                });
+            }
+        }
+
+        function drawConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettis.forEach((c, index) => {
+                c.tiltAngle += c.tiltAngleIncremental;
+                c.y += (Math.cos(c.d) + 3 + c.r / 2) / 2;
+                c.x += Math.sin(c.tiltAngle);
+                c.tilt = Math.sin(c.tiltAngle - index / 3) * 15;
+
+                if (c.y > canvas.height) {
+                    confettis.splice(index, 1);
+                    return;
+                }
+
+                ctx.beginPath();
+                ctx.lineWidth = c.r / 2;
+                ctx.strokeStyle = c.color;
+                ctx.moveTo(c.x + c.tilt + c.r / 2, c.y);
+                ctx.lineTo(c.x + c.tilt, c.y + c.tilt + c.r / 2);
+                ctx.stroke();
+            });
+            requestAnimationFrame(drawConfetti);
+        }
+        drawConfetti();
+    </script>
+</body>
+</html>
